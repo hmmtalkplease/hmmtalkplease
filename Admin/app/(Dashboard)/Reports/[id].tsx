@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { router, Stack, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  StatusBar,
   ActivityIndicator,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useLocalSearchParams, Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
-
 // --- Interfaces for Type Safety ---
 
 interface ReportDetails {
@@ -77,10 +76,26 @@ const CaseSummary: React.FC<{ data: ReportDetails }> = ({ data }) => (
       <Text style={styles.summaryValue}>{data.previousFlags} reports</Text>
     </View>
     <View style={styles.buttonRow}>
-      <TouchableOpacity style={styles.secondaryButton}>
+      <TouchableOpacity
+        style={styles.secondaryButton}
+        onPress={() =>
+          router.push({
+            pathname: "../../Usr_Management/[id]",
+            params: { id: data.userId },
+          })
+        }
+      >
         <Text style={styles.secondaryButtonText}>View User</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.secondaryButton}>
+      <TouchableOpacity
+        style={styles.secondaryButton}
+        onPress={() =>
+          router.push({
+            pathname: "../../Lis_Management/[id]",
+            params: { id: data.listenerId },
+          })
+        }
+      >
         <Text style={styles.secondaryButtonText}>View Listener</Text>
       </TouchableOpacity>
     </View>
