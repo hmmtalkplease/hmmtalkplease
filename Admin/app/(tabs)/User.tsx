@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  StatusBar,
   ActivityIndicator,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 // Using hook for granular layout control
+import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Feather } from "@expo/vector-icons";
-
 // --- Interfaces for Type Safety ---
 interface UserItem {
   id: string;
@@ -63,7 +62,16 @@ const UserCard: React.FC<{ user: UserItem }> = ({ user }) => (
           </Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.viewButton} activeOpacity={0.7}>
+      <TouchableOpacity
+        style={styles.viewButton}
+        activeOpacity={0.7}
+        onPress={() =>
+          router.push({
+            pathname: "../Usr_Management/[id]",
+            params: { id: user.userId },
+          })
+        }
+      >
         <Text style={styles.viewButtonText}>View</Text>
       </TouchableOpacity>
     </View>

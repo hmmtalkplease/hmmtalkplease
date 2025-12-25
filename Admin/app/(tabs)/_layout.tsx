@@ -1,8 +1,8 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import React from "react";
 import { Platform } from "react-native";
-import AntDesign from "@expo/vector-icons/AntDesign";
+
 // Thematic Color Constants
 const COLORS = {
   bg: "#1A1225",
@@ -12,25 +12,23 @@ const COLORS = {
   textSecondary: "rgba(255, 255, 255, 0.4)",
 };
 
-const Tabs = createBottomTabNavigator();
-
-export default function TabsLayout() {
+export default function TabLayout() {
   return (
-    <Tabs.Navigator
+    <Tabs
       screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveTintColor: COLORS.accent,
         tabBarInactiveTintColor: COLORS.textSecondary,
 
         // --- Fix the White Flash ---
-        // Sets the background behind all screens in the tab stack
+        // This ensures the container background matches your theme
 
         // --- Global Header Styling ---
         headerStyle: {
           backgroundColor: COLORS.bg,
           borderBottomWidth: 0,
-          elevation: 0,
-          shadowOpacity: 0,
+          elevation: 0, // Remove shadow on Android
+          shadowOpacity: 0, // Remove shadow on iOS
         },
         headerTitleStyle: {
           color: "#FFFFFF",
@@ -43,18 +41,16 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: COLORS.bg,
           borderTopWidth: 0,
-          elevation: 0,
+          elevation: 10,
           shadowOpacity: 0,
-          // Raised effect via padding
-          height: Platform.OS === "ios" ? 90 : 70,
-          paddingBottom: Platform.OS === "ios" ? 30 : 10,
+          height: Platform.OS === "ios" ? 90 : 80,
+          paddingBottom: Platform.OS === "ios" ? 30 : 20,
           paddingTop: 10,
         },
       }}
     >
       <Tabs.Screen
-        name="Index"
-        component={require("./Dashboard").default}
+        name="Dashboard" // Points to index.tsx (Dashboard)
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
@@ -66,20 +62,55 @@ export default function TabsLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
-        name="User Management"
-        component={require("../Usr_Management/User").default}
+        name="User"
         options={{
-          headerShown: false,
+          title: "User Management",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
-              name="account-supervisor"
+              name="account-group"
               size={24}
               color={color}
             />
           ),
         }}
       />
-    </Tabs.Navigator>
+      <Tabs.Screen
+        name="Listener"
+        options={{
+          title: "Listener Management",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="headphones" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Earnings"
+        options={{
+          title: "Earnings and Payments",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="currency-rupee"
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Stats"
+        options={{
+          title: "Statistics",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="chart-timeline-variant"
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+      />
+    </Tabs>
   );
 }
